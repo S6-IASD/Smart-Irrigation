@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+env/
+
+# Django
+*.sqlite3
+staticfiles/
+media/
+
+# Environment
+.env
+*.env
+
+# Docker
+postgres_data/
+
+# MLflow
+mlruns/
+
+# Models
+*.pkl
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
