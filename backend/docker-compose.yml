@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=smart_irrigation_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+      - ./models:/models
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=smart_irrigation_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - SECRET_KEY=django-insecure-_i^cwn2fl)lnxnao38rffk=e%n$$$ep8u^4kjt@wv92wj2h1#%@
+      - DEBUG=True
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
