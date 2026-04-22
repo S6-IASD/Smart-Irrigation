@@ -16,7 +16,8 @@ services:
     build: .
     command: >
       sh -c "python manage.py migrate &&
-             gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000 --access-logfile - --log-level debug"
+             
     volumes:
       - .:/app
       - ./models:/models
@@ -29,6 +30,7 @@ services:
       - DB_PASSWORD=postgres
       - SECRET_KEY=django-insecure-_i^cwn2fl)lnxnao38rffk=e%n$$$ep8u^4kjt@wv92wj2h1#%@
       - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=config.settings
     depends_on:
       - db
 
