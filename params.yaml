@@ -1,0 +1,26 @@
+# Centralize ALL hyperparameters here
+# DVC reads this file to know when to re-run stages
+
+data:
+  test_size: 0.2
+  random_state: 42
+  target_column: "water_need"
+
+preprocessing:
+  scale_features: true
+
+random_forest:
+  n_estimators: 150
+  max_depth: 15
+  min_samples_split: 8
+  random_state: 42
+
+xgboost:
+  n_estimators: 100
+  max_depth: 6
+  learning_rate: 0.1
+  subsample: 0.8
+  random_state: 42
+
+evaluate:
+  metrics: ["mae", "rmse", "r2", "mape"]
