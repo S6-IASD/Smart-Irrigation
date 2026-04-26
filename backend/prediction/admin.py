@@ -7,7 +7,7 @@ class PredictionAdmin(admin.ModelAdmin):
     """Administration du modèle Prediction."""
 
     list_display = (
-        'parcelle', 'prediction_date', 'eau_litres',
+        'parcelle', 'prediction_date', 'quantite_predite', 'quantite_reelle', 'unite',
         'declenchement', 'status', 'mode', 'weather_source', 'created_at',
     )
     list_filter = ('status', 'declenchement', 'mode', 'weather_source', 'prediction_date')
@@ -19,7 +19,7 @@ class PredictionAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Parcelle & Sources', {'fields': ('parcelle', 'lecture', 'meteo')}),
-        ('Résultat', {'fields': ('prediction_date', 'eau_litres', 'declenchement', 'status')}),
+        ('Résultat', {'fields': ('prediction_date', 'quantite_predite', 'quantite_reelle', 'unite', 'declenchement', 'status')}),
         ('Métadonnées', {'fields': ('mode', 'weather_source')}),
     )
 

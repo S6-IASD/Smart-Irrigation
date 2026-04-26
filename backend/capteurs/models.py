@@ -2,6 +2,7 @@ import uuid
 import secrets
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.utils import timezone
 
 def generate_api_key():
     return secrets.token_urlsafe(32)
@@ -26,7 +27,7 @@ class LectureCapteur(models.Model):
     N = models.FloatField(null=True, validators=[MinValueValidator(0.0)], blank=True)
     P = models.FloatField(null=True, validators=[MinValueValidator(0.0)], blank=True)
     K = models.FloatField(null=True, validators=[MinValueValidator(0.0)], blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"Lecture {self.capteur.type} - {self.timestamp}"

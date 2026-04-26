@@ -39,7 +39,7 @@ const Dashboard = () => {
         
         const wData = last10.map(item => ({
           name: new Date(item.created_at || item.date).toLocaleDateString() + ' ' + new Date(item.created_at || item.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-          eau_litres: item.eau_litres || 0
+          quantite_predite: item.quantite_predite || 0
         }));
 
         const tData = last10.map(item => ({
@@ -61,6 +61,15 @@ const Dashboard = () => {
   }, []);
 
   if (loading) return <LoadingSpinner />;
+
+  const handleUpdateReelle = async (id, val) => {
+    try {
+      await axiosInstance.patch(`/api/prediction/history/${id}/`, { quantite_reelle: parseFloat(val) });
+      setRecentPredictions(prev => prev.map(item => item.id === id ? { ...item, quantite_reelle: parseFloat(val) } : item));
+    } catch (error) {
+      console.error("Erreur de mise à jour de la quantité réelle");
+    }
+  };
 
   return (
     <Container className="py-4">
@@ -121,7 +130,7 @@ const Dashboard = () => {
                     <XAxis dataKey="name" tick={{fontSize: 10}} tickLine={false} axisLine={false} />
                     <YAxis tickLine={false} axisLine={false} tick={{fontSize: 12}} />
                     <RechartsTooltip cursor={{fill: 'var(--color-bg)'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: 'var(--shadow-md)'}} />
-                    <Bar dataKey="eau_litres" name="Eau (Litres)" fill="#16a34a" radius={[4, 4, 0, 0]} barSize={40} />
+                    <Bar dataKey="quantite_predite" name="Besoin (Litres)" fill="#16a34a" radius={[4, 4, 0, 0]} barSize={40} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -159,7 +168,8 @@ const Dashboard = () => {
               <tr>
                 <th className="px-4 py-3 fw-semibold text-muted font-monospace small border-bottom-0">DATE</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">PARCELLE</th>
-                <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">EAU (L)</th>
+                <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">PRÉDITE</th>
+                <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">RÉELLE</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">STATUT</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">MODE</th>
               </tr>
@@ -169,7 +179,16 @@ const Dashboard = () => {
                 <tr key={pred.id || i} style={{ borderBottom: '1px solid var(--color-border)' }}>
                   <td className="px-4 py-3 text-muted small">{new Date(pred.created_at || pred.date).toLocaleString()}</td>
                   <td className="py-3 fw-medium">{pred.parcelle_nom || pred.parcelle}</td>
-                  <td className="py-3 fw-bold" style={{ color: 'var(--color-primary)' }}>{pred.eau_litres?.toFixed(2)} L</td>
+                  <td className="py-3 fw-bold" style={{ color: 'var(--color-primary)' }}>{pred.quantite_predite?.toFixed(2)} {pred.unite || 'L'}</td>
+                  <td className="py-2">
+                    <input
+                      type="number"
+                      className="form-control form-control-sm"
+                      defaultValue={pred.quantite_reelle ?? pred.quantite_predite}
+                      onBlur={(e) => handleUpdateReelle(pred.id, e.target.value)}
+                      style={{ width: '80px', display: 'inline-block' }}
+                    />
+                  </td>
                   <td className="py-3">
                     {pred.declenchement ? (
                       <Badge bg="" className="bg-success bg-opacity-25 text-success rounded-pill px-3 py-2 fw-medium border-0">Irrigué</Badge>

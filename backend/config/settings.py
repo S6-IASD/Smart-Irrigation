@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'django_apscheduler',
 
     # apps
     'users',
@@ -61,6 +62,7 @@ AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Casablanca'  # GMT+1 — prédiction déclenchée à 22h00 heure locale
 
 USE_I18N = True
 
@@ -167,3 +169,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+# ─── APScheduler ─────────────────────────────────────────────────────────────
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"  # format d'affichage dans l'admin
+APSCHEDULER_RUN_NOW_TIMEOUT = 25               # secondes max pour l'exécution immédiate

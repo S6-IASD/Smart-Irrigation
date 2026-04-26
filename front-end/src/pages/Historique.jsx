@@ -44,9 +44,19 @@ const Historique = () => {
     return matchParcelle && matchDeclenchement;
   });
 
+  const handleUpdateReelle = async (id, val) => {
+    try {
+      await axiosInstance.patch(`/api/prediction/history/${id}/`, { quantite_reelle: parseFloat(val) });
+      toast.success('Quantité réelle mise à jour !');
+      setHistory(prev => prev.map(item => item.id === id ? { ...item, quantite_reelle: parseFloat(val) } : item));
+    } catch (e) {
+      toast.error('Erreur de mise à jour');
+    }
+  };
+
   const chartData = [...filteredHistory].slice(0, 50).reverse().map(item => ({
     name: new Date(item.created_at || item.date).toLocaleDateString(),
-    eau_litres: item.eau_litres || 0
+    quantite_predite: item.quantite_predite || 0
   }));
 
   return (
@@ -108,7 +118,7 @@ const Historique = () => {
                 <XAxis dataKey="name" tick={{fontSize: 10}} tickLine={false} axisLine={false} />
                 <YAxis tickLine={false} axisLine={false} tick={{fontSize: 12}} />
                 <RechartsTooltip cursor={{stroke: 'var(--color-border)'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: 'var(--shadow-md)'}} />
-                <Line type="monotone" dataKey="eau_litres" name="Eau (L)" stroke="#16a34a" strokeWidth={3} dot={{r: 0}} activeDot={{r: 6, strokeWidth: 0}} fillOpacity={1} />
+                <Line type="monotone" dataKey="quantite_predite" name="Besoin (L)" stroke="#16a34a" strokeWidth={3} dot={{r: 0}} activeDot={{r: 6, strokeWidth: 0}} fillOpacity={1} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -127,7 +137,8 @@ const Historique = () => {
               <tr>
                 <th className="px-4 py-3 fw-semibold text-muted font-monospace small border-bottom-0">DATE</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">PARCELLE</th>
-                <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">EAU (L)</th>
+                <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">PRÉDITE</th>
+                <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">RÉELLE</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">STATUT</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">MODE</th>
                 <th className="py-3 fw-semibold text-muted font-monospace small border-bottom-0">SOURCE MÉTÉO</th>
@@ -140,7 +151,16 @@ const Historique = () => {
                   <td className="py-3 fw-medium text-dark">
                     {parcelles.find(p => p.id === item.parcelle || p.id === item.parcelle_id)?.nom || item.parcelle_nom || item.parcelle}
                   </td>
-                  <td className="py-3 fw-bold" style={{ color: 'var(--color-primary)' }}>{item.eau_litres?.toFixed(2)} L</td>
+                  <td className="py-3 fw-bold" style={{ color: 'var(--color-primary)' }}>{item.quantite_predite?.toFixed(2)} {item.unite || 'L'}</td>
+                  <td className="py-2">
+                    <Form.Control
+                      type="number"
+                      size="sm"
+                      defaultValue={item.quantite_reelle ?? item.quantite_predite}
+                      onBlur={(e) => handleUpdateReelle(item.id, e.target.value)}
+                      style={{ width: '80px', display: 'inline-block' }}
+                    />
+                  </td>
                   <td className="py-3">
                     {item.declenchement ? (
                       <Badge bg="" className="bg-success bg-opacity-25 text-success rounded-pill px-3 py-2 fw-medium border-0">Irrigué</Badge>
