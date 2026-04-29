@@ -12,7 +12,7 @@ Ce dépôt couvre la partie **préparation des données** du projet Smart-Irriga
 | Phase 2 — Nettoyage | `phase2_clean.py` | `data_clean.csv` |  
 | Phase 3 — Analyse Exploratoire | `phase3_eda.py` | `distributions.png` + `correlations.png` |  
 | Phase 4 — Feature Engineering | `phase4_features.py` | `data_features.csv` |  
-| Phase 5 — Séparation | `phase4_split.py` | `data_arbres.csv` + `data_masse.csv` |  
+| Phase 5 — Séparation | `phase5_split.py` | `data_arbres.csv` + `data_masse.csv` |  
 
 ---
 
@@ -54,7 +54,7 @@ Deux fichiers dans `data/processed/`, prêts à l'entraînement :
 | `fertilite_sol` | ✨ Générée — score NPK normalisé |  
 | `type_culture` | ✨ Générée — `arbre` ou `masse` |  
 
-> ✨ = features construites en Phase 3 (feature engineering).
+> ✨ = features construites en Phase 3 (feature engineering).  
 > Les données sont propres et prêtes à l'entraînement. L'encodage et la normalisation sont à la charge de l'équipe MLOps.
 
 ---
