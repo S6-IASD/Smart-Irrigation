@@ -12,11 +12,6 @@ def get_saison(mois):
 
 df["saison"] = df["mois"].apply(get_saison)
 
-# Stress hydrique (logique naturelle)
-df["stress_hydrique"] = (df["eau_mm"] > 0).astype(int)
-print(f"  Stress=0 (pas d'irrigation) : {(df['stress_hydrique']==0).sum()} lignes")
-print(f"  Stress=1 (irrigation needed) : {(df['stress_hydrique']==1).sum()} lignes")
-
 # Amplitude thermique
 df["amplitude_thermique"] = (df["T_max"] - df["T_min"]).round(2)
 
