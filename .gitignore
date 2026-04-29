@@ -30,3 +30,8 @@ mlruns/
 # OS
 .DS_Store
 Thumbs.db
+
+# else
+*.lock*
+*~
+\#*\#
