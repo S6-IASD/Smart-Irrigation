@@ -1,0 +1,64 @@
+# dvc.yaml
+# --------
+# Pipeline DVC : définit les ÉTAPES dans l'ordre
+# DVC gère les dépendances entre étapes automatiquement
+# Commande : dvc repro  → relance tout ou seulement ce qui a changé
+
+stages:
+
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+      - src/data_ingestion.py
+      - params.yaml
+    params:
+      - data.random_state
+    outs:
+      - data/raw/soil_water.csv
+
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/soil_water.csv
+      - params.yaml
+    params:
+      - data.test_size
+      - data.random_state
+      - data.target_column
+      - preprocessing.scale_features
+    outs:
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+      - models/scaler.pkl
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+      - params.yaml
+    params:
+      - random_forest
+      - xgboost
+    outs:
+      - models/best_model.pkl
+    metrics:
+      - reports/metrics.json:
+          cache: false
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/best_model.pkl
+      - reports/metrics.json
+    outs:
+      - reports/figures/model_comparison.png:
+          cache: false
+      
