@@ -81,11 +81,11 @@ def test_prediction_success(mock_meteo, authenticated_client, parcelle_id, capte
     response = authenticated_client.post("/api/prediction/", payload)
     # Ton view retourne 201 Created
     assert response.status_code == 201
-    assert "eau_litres" in response.data
+    assert "quantite_predite" in response.data
     assert "declenchement" in response.data
     assert "mode" in response.data
     assert "weather_source" in response.data
-    assert isinstance(response.data["eau_litres"], (int, float))
+    assert isinstance(response.data["quantite_predite"], (int, float))
     assert isinstance(response.data["declenchement"], bool)
 
 @pytest.mark.django_db
@@ -96,7 +96,7 @@ def test_prediction_mode_fallback(mock_meteo, authenticated_client, parcelle_id,
     payload = {"parcelle_id": str(parcelle_id), **capteur_data}
     response = authenticated_client.post("/api/prediction/", payload)
     assert response.status_code == 201
-    assert response.data["mode"] == "fallback"
+    assert response.data["mode"] == "fallback_manual"
 
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
@@ -132,7 +132,7 @@ def test_prediction_sol_tres_humide(mock_meteo, authenticated_client, parcelle_i
     response = authenticated_client.post("/api/prediction/", payload)
     assert response.status_code == 201
     assert response.data["declenchement"] == False
-    assert response.data["eau_litres"] == 0.0
+    assert response.data["quantite_predite"] == 0.0
 
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
@@ -150,7 +150,7 @@ def test_prediction_sol_sec(mock_meteo, authenticated_client, parcelle_id):
     response = authenticated_client.post("/api/prediction/", payload)
     assert response.status_code == 201
     assert response.data["declenchement"] == True
-    assert response.data["eau_litres"] > 0
+    assert response.data["quantite_predite"] > 0
 
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
@@ -158,6 +158,9 @@ def test_prediction_sol_sec(mock_meteo, authenticated_client, parcelle_id):
 def test_historique_predictions(mock_meteo, authenticated_client, parcelle_id, capteur_data):
     payload = {"parcelle_id": str(parcelle_id), **capteur_data}
     authenticated_client.post("/api/prediction/", payload)
+    
+    # On force la 2ème prédiction pour éviter le blocage d'unicité journalière
+    payload["force"] = True
     authenticated_client.post("/api/prediction/", payload)
     response = authenticated_client.get("/api/prediction/history/")
     assert response.status_code == 200
@@ -167,14 +170,14 @@ def test_historique_predictions(mock_meteo, authenticated_client, parcelle_id, c
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
        return_value=MOCK_METEO_RESPONSE)
-def test_historique_detail(mock_meteo, authenticated_client, parcelle_id, capteur_data):
+def test_historique_by_parcelle(mock_meteo, authenticated_client, parcelle_id, capteur_data):
     payload = {"parcelle_id": str(parcelle_id), **capteur_data}
     authenticated_client.post("/api/prediction/", payload)
-    history = authenticated_client.get("/api/prediction/history/")
-    pred_id = history.data[0]["id"]
-    response = authenticated_client.get(f"/api/prediction/history/{pred_id}/")
+    response = authenticated_client.get(f"/api/prediction/history/{parcelle_id}/")
     assert response.status_code == 200
-    assert "eau_litres" in response.data
+    assert isinstance(response.data, list)
+    assert len(response.data) == 1
+    assert "quantite_predite" in response.data[0]
 
 @pytest.mark.django_db
 def test_historique_autre_user_isole(client, authenticated_client,

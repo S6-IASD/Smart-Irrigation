@@ -1,0 +1,9 @@
+{% extends "admin/index.html" %}
+{% load admin_dashboard %}
+
+{% block content %}
+{% dashboard_stats %}
+
+<!-- Default Django admin content below the dashboard -->
+{{ block.super }}
+{% endblock %}

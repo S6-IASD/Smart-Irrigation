@@ -1,0 +1,443 @@
+<!-- Dashboard Stats partial - included by the index.html template -->
+<style>
+/* ==========================================================================
+   Dashboard Stats Guarantee Styles
+   ========================================================================== */
+.dashboard-wrapper {
+    margin-bottom: 32px;
+    width: 100%;
+    clear: both;
+    display: block;
+}
+
+.dashboard-header {
+    margin-bottom: 28px;
+}
+
+.dashboard-header h2 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--body-fg, #0f172a);
+    margin: 0 0 6px 0;
+    letter-spacing: -0.03em;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.dashboard-header p {
+    font-size: 0.9rem;
+    color: var(--body-quiet-color, #64748b);
+    margin: 0;
+    font-weight: 400;
+}
+
+/* KPI Cards Grid */
+.stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.custom-stat-card {
+    background: var(--body-bg, #ffffff) !important;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.custom-stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.custom-stat-icon {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    border-radius: 12px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff;
+}
+
+.custom-stat-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+
+.custom-stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--body-quiet-color, #64748b);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+}
+
+.custom-stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--body-fg, #0f172a);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    display: block;
+}
+
+.custom-stat-sub {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 400;
+    display: block;
+}
+
+/* Activity Grid */
+.activity-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 20px;
+}
+
+.custom-activity-card {
+    background: var(--body-bg, #ffffff) !important;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    padding: 0;
+}
+
+.custom-activity-card h3 {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--body-fg, #0f172a);
+    padding: 16px 20px;
+    margin: 0;
+    border-bottom: 1px solid var(--border-color, #f1f5f9);
+    letter-spacing: -0.01em;
+    background: transparent !important;
+}
+
+/* Status Bars */
+.status-bars {
+    padding: 16px 20px;
+}
+
+.status-row {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.status-row:last-child {
+    margin-bottom: 0;
+}
+
+.status-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--body-quiet-color, #475569);
+    min-width: 100px;
+}
+
+.status-dot {
+    width: 8px !important;
+    height: 8px !important;
+    min-width: 8px !important;
+    border-radius: 50%;
+    display: inline-block !important;
+}
+
+.status-bar-wrapper {
+    flex: 1;
+    height: 8px;
+    background: var(--border-color, #f1f5f9);
+    border-radius: 4px;
+    overflow: hidden;
+    display: block !important;
+}
+
+.status-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    min-width: 2px;
+    display: block !important;
+}
+
+.status-count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--body-fg, #0f172a);
+    min-width: 32px;
+    text-align: right;
+    display: block !important;
+}
+
+/* Activity Table */
+.custom-activity-table {
+    width: 100%;
+    border-collapse: collapse !important;
+}
+
+.custom-activity-table thead th {
+    background: var(--darkened-bg, #f8fafc) !important;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--body-quiet-color, #64748b);
+    padding: 10px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.custom-activity-table tbody td {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    color: var(--body-quiet-color, #334155);
+    border-bottom: 1px solid var(--border-color, #f1f5f9);
+    background: transparent !important;
+}
+
+.custom-activity-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-activity-table tbody tr:hover td {
+    background: var(--darkened-bg, #f8fafc) !important;
+}
+
+.custom-badge-tag {
+    display: inline-block !important;
+    background: #f0fdf4 !important;
+    color: #16a34a !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+}
+
+.custom-badge-status {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+}
+
+.badge-success {
+    background: #f0fdf4 !important;
+    color: #16a34a !important;
+}
+
+.badge-pending {
+    background: #fffbeb !important;
+    color: #d97706 !important;
+}
+
+.badge-failed {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+}
+
+.empty-state {
+    padding: 24px 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+</style>
+<div class="dashboard-wrapper">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="dashboard-header-text">
+            <h2>Tableau de bord</h2>
+            <p>Vue d'ensemble de la plateforme Smart Irrigation</p>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="stats-grid">
+        <div class="custom-stat-card">
+            <div class="custom-stat-icon" style="background: linear-gradient(135deg, #16a34a, #22c55e);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="custom-stat-content">
+                <span class="custom-stat-label">Utilisateurs</span>
+                <span class="custom-stat-value">{{ total_users }}</span>
+                <span class="custom-stat-sub">+{{ new_users_30d }} ce mois</span>
+            </div>
+        </div>
+
+        <div class="custom-stat-card">
+            <div class="custom-stat-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
+            <div class="custom-stat-content">
+                <span class="custom-stat-label">Parcelles</span>
+                <span class="custom-stat-value">{{ total_parcelles }}</span>
+                <span class="custom-stat-sub">+{{ new_parcelles_30d }} ce mois</span>
+            </div>
+        </div>
+
+        <div class="custom-stat-card">
+            <div class="custom-stat-icon" style="background: linear-gradient(135deg, #9333ea, #a855f7);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="custom-stat-content">
+                <span class="custom-stat-label">Capteurs</span>
+                <span class="custom-stat-value">{{ total_capteurs }}</span>
+                <span class="custom-stat-sub">{{ lectures_7d }} lectures (7j)</span>
+            </div>
+        </div>
+
+        <div class="custom-stat-card">
+            <div class="custom-stat-icon" style="background: linear-gradient(135deg, #ea580c, #f97316);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="custom-stat-content">
+                <span class="custom-stat-label">Prédictions</span>
+                <span class="custom-stat-value">{{ total_predictions }}</span>
+                <span class="custom-stat-sub">+{{ predictions_30d }} ce mois</span>
+            </div>
+        </div>
+
+        <div class="custom-stat-card">
+            <div class="custom-stat-icon" style="background: linear-gradient(135deg, #0891b2, #06b6d4);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="custom-stat-content">
+                <span class="custom-stat-label">Données Météo</span>
+                <span class="custom-stat-value">{{ total_meteo }}</span>
+                <span class="custom-stat-sub">enregistrements</span>
+            </div>
+        </div>
+
+        <div class="custom-stat-card">
+            <div class="custom-stat-icon" style="background: linear-gradient(135deg, #dc2626, #ef4444);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="custom-stat-content">
+                <span class="custom-stat-label">Taux irrigation</span>
+                <span class="custom-stat-value">{{ trigger_rate }}%</span>
+                <span class="custom-stat-sub">{{ predictions_triggered }} déclenchées</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Section -->
+    <div class="activity-grid">
+
+        <!-- Prediction Status Breakdown -->
+        <div class="activity-card">
+            <h3>Statuts des prédictions</h3>
+            <div class="status-bars">
+                <div class="status-row">
+                    <div class="status-label">
+                        <span class="status-dot" style="background: #16a34a;"></span>
+                        Succès
+                    </div>
+                    <div class="status-bar-wrapper">
+                        <div class="status-bar" style="background: #16a34a; width: {% widthratio predictions_success total_predictions 100 %}%;"></div>
+                    </div>
+                    <span class="status-count">{{ predictions_success }}</span>
+                </div>
+                <div class="status-row">
+                    <div class="status-label">
+                        <span class="status-dot" style="background: #eab308;"></span>
+                        En attente
+                    </div>
+                    <div class="status-bar-wrapper">
+                        <div class="status-bar" style="background: #eab308; width: {% widthratio predictions_pending total_predictions 100 %}%;"></div>
+                    </div>
+                    <span class="status-count">{{ predictions_pending }}</span>
+                </div>
+                <div class="status-row">
+                    <div class="status-label">
+                        <span class="status-dot" style="background: #dc2626;"></span>
+                        Échouées
+                    </div>
+                    <div class="status-bar-wrapper">
+                        <div class="status-bar" style="background: #dc2626; width: {% widthratio predictions_failed total_predictions 100 %}%;"></div>
+                    </div>
+                    <span class="status-count">{{ predictions_failed }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Parcelles -->
+        <div class="custom-activity-card">
+            <h3>Dernières parcelles</h3>
+            {% if recent_parcelles %}
+            <table class="custom-activity-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Culture</th>
+                        <th>Propriétaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in recent_parcelles %}
+                    <tr>
+                        <td><strong>{{ p.nom }}</strong></td>
+                        <td><span class="custom-badge-tag">{{ p.type_plante }}</span></td>
+                        <td>{{ p.user.username }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-state">Aucune parcelle enregistrée.</p>
+            {% endif %}
+        </div>
+
+        <!-- Recent Predictions -->
+        <div class="custom-activity-card">
+            <h3>Dernières prédictions</h3>
+            {% if recent_predictions %}
+            <table class="custom-activity-table">
+                <thead>
+                    <tr>
+                        <th>Parcelle</th>
+                        <th>Eau (L)</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pred in recent_predictions %}
+                    <tr>
+                        <td><strong>{{ pred.parcelle.nom }}</strong></td>
+                        <td>{{ pred.eau_litres }} L</td>
+                        <td>
+                            <span class="custom-badge-status badge-{{ pred.status }}">{{ pred.status }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="empty-state">Aucune prédiction enregistrée.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
