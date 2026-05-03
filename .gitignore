@@ -20,8 +20,8 @@ postgres_data/
 # MLflow
 mlruns/
 
-# Models
-*.pkl
+# Models  
+# *.pkl   
 
 # IDE
 .vscode/
@@ -32,6 +32,10 @@ mlruns/
 Thumbs.db
 
 # else
-*.lock*
 *~
 \#*\#
+
+# Data et modèles (gérés par DVC)
+data/
+models/
+reports/

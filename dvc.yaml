@@ -1,64 +1,105 @@
-# dvc.yaml
-# --------
-# Pipeline DVC : définit les ÉTAPES dans l'ordre
-# DVC gère les dépendances entre étapes automatiquement
-# Commande : dvc repro  → relance tout ou seulement ce qui a changé
-
 stages:
 
+  # ─────────────────────────────────────────────
+  # 1. INGESTION
+  # ─────────────────────────────────────────────
   data_ingestion:
     cmd: python src/data_ingestion.py
     deps:
       - src/data_ingestion.py
       - params.yaml
     params:
-      - data.random_state
+      - arbres.source_path
+      - masse.source_path
     outs:
-      - data/raw/soil_water.csv
+      - data/raw/data_arbres.csv
+      - data/raw/data_masse.csv
 
+
+  # ─────────────────────────────────────────────
+  # 2. PREPROCESSING
+  # ─────────────────────────────────────────────
   preprocess:
     cmd: python src/preprocess.py
     deps:
       - src/preprocess.py
-      - data/raw/soil_water.csv
+      - data/raw/data_arbres.csv
+      - data/raw/data_masse.csv
       - params.yaml
     params:
       - data.test_size
       - data.random_state
-      - data.target_column
       - preprocessing.scale_features
+      - preprocessing.scale_method
+      - arbres.features
+      - arbres.target
+      - masse.features
+      - masse.target
     outs:
-      - data/processed/X_train.csv
-      - data/processed/X_test.csv
-      - data/processed/y_train.csv
-      - data/processed/y_test.csv
-      - models/scaler.pkl
+      # ARBRES
+      - data/processed/arbres/X_train.csv
+      - data/processed/arbres/X_test.csv
+      - data/processed/arbres/y_train.csv
+      - data/processed/arbres/y_test.csv
+      - models/arbres/scaler.pkl
+      - models/arbres/encoders.pkl
 
+      # MASSE
+      - data/processed/masse/X_train.csv
+      - data/processed/masse/X_test.csv
+      - data/processed/masse/y_train.csv
+      - data/processed/masse/y_test.csv
+      - models/masse/scaler.pkl
+      - models/masse/encoders.pkl
+
+
+  # ─────────────────────────────────────────────
+  # 3. TRAINING
+  # ─────────────────────────────────────────────
   train:
     cmd: python src/train.py
     deps:
       - src/train.py
-      - data/processed/X_train.csv
-      - data/processed/X_test.csv
-      - data/processed/y_train.csv
-      - data/processed/y_test.csv
+      - data/processed/arbres/X_train.csv
+      - data/processed/arbres/X_test.csv
+      - data/processed/arbres/y_train.csv
+      - data/processed/arbres/y_test.csv
+      - data/processed/masse/X_train.csv
+      - data/processed/masse/X_test.csv
+      - data/processed/masse/y_train.csv
+      - data/processed/masse/y_test.csv
       - params.yaml
     params:
       - random_forest
       - xgboost
+      - gradient_boosting
     outs:
-      - models/best_model.pkl
+      - models/arbres/best_model.pkl
+      - models/masse/best_model.pkl
     metrics:
-      - reports/metrics.json:
+      - reports/metrics_arbres.json:
+          cache: false
+      - reports/metrics_masse.json:
           cache: false
 
+
+  # ─────────────────────────────────────────────
+  # 4. EVALUATION
+  # ─────────────────────────────────────────────
   evaluate:
     cmd: python src/evaluate.py
     deps:
       - src/evaluate.py
-      - models/best_model.pkl
-      - reports/metrics.json
+      - models/arbres/best_model.pkl
+      - models/masse/best_model.pkl
+      - reports/metrics_arbres.json
+      - reports/metrics_masse.json
     outs:
-      - reports/figures/model_comparison.png:
+      - reports/figures/model_comparison_arbres.png:
           cache: false
-      
+      - reports/figures/model_comparison_masse.png:
+          cache: false
+      - reports/figures/feature_importance_arbres.png:
+          cache: false
+      - reports/figures/feature_importance_masse.png:
+          cache: false

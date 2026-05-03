@@ -5,128 +5,245 @@ stages:
     deps:
     - path: params.yaml
       hash: md5
-      md5: 39265deab7da46ec4c57e583c8170684
-      size: 474
+      md5: 4680929013fbb779f0be411ee1253f83
+      size: 2326
     - path: src/data_ingestion.py
       hash: md5
-      md5: 7ece21452a74d835e20e3d40757ac702
-      size: 2576
+      md5: 692e7be43ea44a6c60bda08226f15656
+      size: 1302
     params:
       params.yaml:
-        data.random_state: 42
+        arbres.source_path: 
+          D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_arbres.csv
+        masse.source_path: 
+          D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_masse.csv
     outs:
-    - path: data/raw/soil_water.csv
+    - path: data/raw/data_arbres.csv
       hash: md5
-      md5: 58881384e4e1bcaf359bcda5dab1f6e7
-      size: 152067
+      md5: bb4fd70a25ec6ba2edfa5a9ec1768cfb
+      size: 2814966
+    - path: data/raw/data_masse.csv
+      hash: md5
+      md5: 655f3a05143be5bb19ad8686cace9562
+      size: 6290706
   preprocess:
     cmd: python src/preprocess.py
     deps:
-    - path: data/raw/soil_water.csv
+    - path: data/raw/data_arbres.csv
       hash: md5
-      md5: 58881384e4e1bcaf359bcda5dab1f6e7
-      size: 152067
+      md5: bb4fd70a25ec6ba2edfa5a9ec1768cfb
+      size: 2814966
+    - path: data/raw/data_masse.csv
+      hash: md5
+      md5: 655f3a05143be5bb19ad8686cace9562
+      size: 6290706
     - path: params.yaml
       hash: md5
-      md5: 39265deab7da46ec4c57e583c8170684
-      size: 474
+      md5: 4680929013fbb779f0be411ee1253f83
+      size: 2326
     - path: src/preprocess.py
       hash: md5
-      md5: 044eced0fa95aacc0fbd125914c02879
-      size: 2680
+      md5: 3b8a3557a0b4b0a68f58db6f03250282
+      size: 8115
     params:
       params.yaml:
+        arbres.features:
+        - T_min
+        - T_max
+        - humidite_sol
+        - temperature_sol
+        - N
+        - P
+        - K
+        - pluie_mm
+        - type_plante
+        - stade
+        arbres.target: eau_mm
         data.random_state: 42
-        data.target_column: water_need
         data.test_size: 0.2
+        masse.features:
+        - T_min
+        - T_max
+        - humidite_sol
+        - temperature_sol
+        - N
+        - P
+        - K
+        - pluie_mm
+        - type_plante
+        - stade
+        - superficie_ha
+        masse.target: eau_litres
         preprocessing.scale_features: true
+        preprocessing.scale_method: standard
     outs:
-    - path: data/processed/X_test.csv
+    - path: data/processed/arbres/X_test.csv
       hash: md5
-      md5: 4c75113e8976382aba9b8628c35c8694
-      size: 35688
-    - path: data/processed/X_train.csv
+      md5: d98252cf2c66303b0725d4b9b02be9b2
+      size: 751953
+    - path: data/processed/arbres/X_train.csv
       hash: md5
-      md5: 2272fcc2c1065c8b3dbb132eb4b3a946
-      size: 142155
-    - path: data/processed/y_test.csv
+      md5: d0dbe4c362748d39166e2bde370c7b31
+      size: 3006435
+    - path: data/processed/arbres/y_test.csv
       hash: md5
-      md5: 545317c2b442872aee5df53105e74254
-      size: 3834
-    - path: data/processed/y_train.csv
+      md5: 8139a0a4e33750e2999a41e391b67da7
+      size: 20239
+    - path: data/processed/arbres/y_train.csv
       hash: md5
-      md5: 37270b531df7250dfe8fe24702085771
-      size: 15320
-    - path: models/scaler.pkl
+      md5: acfa3c65f4722db86894b753b03b37c0
+      size: 80932
+    - path: data/processed/masse/X_test.csv
       hash: md5
-      md5: b7bff211d0f6d10c2d1a09f447b8a388
-      size: 1167
+      md5: 8318b782bc032d2ca0cea31ab592854b
+      size: 1838726
+    - path: data/processed/masse/X_train.csv
+      hash: md5
+      md5: 969389697cc1007db11365764d727a3a
+      size: 7352299
+    - path: data/processed/masse/y_test.csv
+      hash: md5
+      md5: 306d8ca03ac853737154f9f6312ecd25
+      size: 54956
+    - path: data/processed/masse/y_train.csv
+      hash: md5
+      md5: 7512eefc8bba5279b65d89a907c73777
+      size: 220294
+    - path: models/arbres/encoders.pkl
+      hash: md5
+      md5: 7f40751c859dca05f1461320b7bdb49b
+      size: 823
+    - path: models/arbres/scaler.pkl
+      hash: md5
+      md5: e97241f0f25b8ff003dbd2bc39d8ff3f
+      size: 1159
+    - path: models/masse/encoders.pkl
+      hash: md5
+      md5: 227a93476a2b02bd8b459169e2daab42
+      size: 852
+    - path: models/masse/scaler.pkl
+      hash: md5
+      md5: 6ba6abe40d3554aad5945ddd31bb91d1
+      size: 1183
   train:
     cmd: python src/train.py
     deps:
-    - path: data/processed/X_test.csv
+    - path: data/processed/arbres/X_test.csv
       hash: md5
-      md5: 4c75113e8976382aba9b8628c35c8694
-      size: 35688
-    - path: data/processed/X_train.csv
+      md5: d98252cf2c66303b0725d4b9b02be9b2
+      size: 751953
+    - path: data/processed/arbres/X_train.csv
       hash: md5
-      md5: 2272fcc2c1065c8b3dbb132eb4b3a946
-      size: 142155
-    - path: data/processed/y_test.csv
+      md5: d0dbe4c362748d39166e2bde370c7b31
+      size: 3006435
+    - path: data/processed/arbres/y_test.csv
       hash: md5
-      md5: 545317c2b442872aee5df53105e74254
-      size: 3834
-    - path: data/processed/y_train.csv
+      md5: 8139a0a4e33750e2999a41e391b67da7
+      size: 20239
+    - path: data/processed/arbres/y_train.csv
       hash: md5
-      md5: 37270b531df7250dfe8fe24702085771
-      size: 15320
+      md5: acfa3c65f4722db86894b753b03b37c0
+      size: 80932
+    - path: data/processed/masse/X_test.csv
+      hash: md5
+      md5: 8318b782bc032d2ca0cea31ab592854b
+      size: 1838726
+    - path: data/processed/masse/X_train.csv
+      hash: md5
+      md5: 969389697cc1007db11365764d727a3a
+      size: 7352299
+    - path: data/processed/masse/y_test.csv
+      hash: md5
+      md5: 306d8ca03ac853737154f9f6312ecd25
+      size: 54956
+    - path: data/processed/masse/y_train.csv
+      hash: md5
+      md5: 7512eefc8bba5279b65d89a907c73777
+      size: 220294
     - path: params.yaml
       hash: md5
-      md5: 39265deab7da46ec4c57e583c8170684
-      size: 474
+      md5: 4680929013fbb779f0be411ee1253f83
+      size: 2326
     - path: src/train.py
       hash: md5
-      md5: 3140fe40cacb399cb9fb812b03812fe7
-      size: 5229
+      md5: 45544a6f65f8e88fd1e8d30ed8b3da2e
+      size: 8296
     params:
       params.yaml:
-        random_forest:
-          n_estimators: 150
-          max_depth: 15
-          min_samples_split: 8
-          random_state: 42
-        xgboost:
-          n_estimators: 100
-          max_depth: 6
-          learning_rate: 0.1
+        gradient_boosting:
+          n_estimators: 200
+          max_depth: 5
+          learning_rate: 0.05
           subsample: 0.8
           random_state: 42
+        random_forest:
+          n_estimators: 250
+          max_depth: 15
+          min_samples_split: 5
+          min_samples_leaf: 2
+          n_jobs: -1
+          random_state: 42
+        xgboost:
+          n_estimators: 300
+          max_depth: 6
+          learning_rate: 0.05
+          subsample: 0.8
+          colsample_bytree: 0.8
+          random_state: 42
     outs:
-    - path: models/best_model.pkl
+    - path: models/arbres/best_model.pkl
       hash: md5
-      md5: 22b9c28d865af1bcb3b6ad42435f358c
-      size: 1073
-    - path: reports/metrics.json
+      md5: 63a4f704b0afb689c30c94ee0b75f5fb
+      size: 1349272
+    - path: models/masse/best_model.pkl
       hash: md5
-      md5: f886b5aeef434c44b284b3153ce921e7
-      size: 501
+      md5: bcf379eb237a9e6195d654de696bc10c
+      size: 1371211
+    - path: reports/metrics_arbres.json
+      hash: md5
+      md5: 8d0c06cfd543ae8432febec95996d5f2
+      size: 498
+    - path: reports/metrics_masse.json
+      hash: md5
+      md5: 1154523652bdc07c4aea76ad96a31d16
+      size: 491
   evaluate:
     cmd: python src/evaluate.py
     deps:
-    - path: models/best_model.pkl
+    - path: models/arbres/best_model.pkl
       hash: md5
-      md5: 22b9c28d865af1bcb3b6ad42435f358c
-      size: 1073
-    - path: reports/metrics.json
+      md5: 63a4f704b0afb689c30c94ee0b75f5fb
+      size: 1349272
+    - path: models/masse/best_model.pkl
       hash: md5
-      md5: f886b5aeef434c44b284b3153ce921e7
-      size: 501
+      md5: bcf379eb237a9e6195d654de696bc10c
+      size: 1371211
+    - path: reports/metrics_arbres.json
+      hash: md5
+      md5: 8d0c06cfd543ae8432febec95996d5f2
+      size: 498
+    - path: reports/metrics_masse.json
+      hash: md5
+      md5: 1154523652bdc07c4aea76ad96a31d16
+      size: 491
     - path: src/evaluate.py
       hash: md5
-      md5: ddf7fe4f499c21796b343f25a3d428bf
-      size: 3715
+      md5: dbf05db3f305afa7c5c5c15184d1700b
+      size: 5447
     outs:
-    - path: reports/figures/model_comparison.png
+    - path: reports/figures/feature_importance_arbres.png
       hash: md5
-      md5: 4bdbf8faea91e1f3533a3f4f91dfb978
-      size: 67769
+      md5: 2608cd2826bdf2fd4425585c43e11012
+      size: 54852
+    - path: reports/figures/feature_importance_masse.png
+      hash: md5
+      md5: 14f853b056d66f07eb9b21193d86a4ab
+      size: 53358
+    - path: reports/figures/model_comparison_arbres.png
+      hash: md5
+      md5: cfb477af3714c5f70ae2d61790243d2a
+      size: 83416
+    - path: reports/figures/model_comparison_masse.png
+      hash: md5
+      md5: fb021ba15f1993858d1974cdc773841b
+      size: 88632
