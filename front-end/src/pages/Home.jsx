@@ -138,7 +138,7 @@ const Home = () => {
                 </div>
                 <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[BOULAARAB Othmane]</h5>
                 <div className="text-success small fw-medium mb-3">[Dataops]</div>
-                <p className="text-muted small mb-0">Préparation des données via un pipeline DataOps : collecte, analyse, nettoyage et feature engineering.</p>
+                <p className="text-muted small mb-0">Préparation des données via un pipeline DataOps :collecte, analyse, nettoyage et feature engineering.</p>
               </Card>
             </Col>
           </Row>
