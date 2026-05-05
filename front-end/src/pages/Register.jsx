@@ -42,9 +42,35 @@ const Register = () => {
       toast.success('Inscription réussie ! Vous pouvez maintenant vous connecter.');
       navigate('/login');
     } catch (err) {
-      const msg = err.response?.data?.detail || 'Erreur lors de l\'inscription.';
+      let msg = 'Erreur lors de l\'inscription.';
+      if (err.response && err.response.data) {
+        const data = err.response.data;
+        if (typeof data === 'string') {
+          msg = data;
+        } else if (data.detail) {
+          msg = data.detail;
+        } else {
+          // Extraire la première erreur de champ
+          const fields = Object.keys(data);
+          if (fields.length > 0) {
+            const firstField = fields[0];
+            const fieldError = Array.isArray(data[firstField]) ? data[firstField][0] : data[firstField];
+            
+            // Traduction de quelques erreurs courantes
+            if (firstField === 'username' && fieldError.includes('already exists')) {
+              msg = 'Ce nom d\'utilisateur existe déjà.';
+            } else if (firstField === 'email' && fieldError.includes('already exists')) {
+              msg = 'Cette adresse email est déjà utilisée.';
+            } else if (firstField === 'password') {
+              msg = `Mot de passe : ${fieldError}`;
+            } else {
+              msg = `${firstField}: ${fieldError}`;
+            }
+          }
+        }
+      }
       setError(msg);
-      toast.error('Erreur lors de l\'inscription.');
+      toast.error(msg);
     } finally {
       setIsSubmitting(false);
     }

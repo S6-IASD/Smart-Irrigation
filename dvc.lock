@@ -5,8 +5,8 @@ stages:
     deps:
     - path: params.yaml
       hash: md5
-      md5: 4680929013fbb779f0be411ee1253f83
-      size: 2326
+      md5: b225cb64fb439f0fce5eaca148d0a93c
+      size: 2483
     - path: src/data_ingestion.py
       hash: md5
       md5: 692e7be43ea44a6c60bda08226f15656
@@ -14,9 +14,9 @@ stages:
     params:
       params.yaml:
         arbres.source_path: 
-          D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_arbres.csv
+          C:/Users/hp/Desktop/project-mlops/data/raw/data_arbres.csv
         masse.source_path: 
-          D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_masse.csv
+          C:/Users/hp/Desktop/project-mlops/data/raw/data_masse.csv
     outs:
     - path: data/raw/data_arbres.csv
       hash: md5
@@ -39,8 +39,8 @@ stages:
       size: 6290706
     - path: params.yaml
       hash: md5
-      md5: 4680929013fbb779f0be411ee1253f83
-      size: 2326
+      md5: b225cb64fb439f0fce5eaca148d0a93c
+      size: 2483
     - path: src/preprocess.py
       hash: md5
       md5: 3b8a3557a0b4b0a68f58db6f03250282
@@ -111,19 +111,19 @@ stages:
       size: 220294
     - path: models/arbres/encoders.pkl
       hash: md5
-      md5: 7f40751c859dca05f1461320b7bdb49b
+      md5: d3157471db839db5075913fb982a7179
       size: 823
     - path: models/arbres/scaler.pkl
       hash: md5
-      md5: e97241f0f25b8ff003dbd2bc39d8ff3f
+      md5: 26233925186225b4890c01d3a66947dc
       size: 1159
     - path: models/masse/encoders.pkl
       hash: md5
-      md5: 227a93476a2b02bd8b459169e2daab42
+      md5: 09360eab2be9306dfcf6125b5dd38ab3
       size: 852
     - path: models/masse/scaler.pkl
       hash: md5
-      md5: 6ba6abe40d3554aad5945ddd31bb91d1
+      md5: 99bdfe29a245ba904c802a023573afb4
       size: 1183
   train:
     cmd: python src/train.py
@@ -162,8 +162,8 @@ stages:
       size: 220294
     - path: params.yaml
       hash: md5
-      md5: 4680929013fbb779f0be411ee1253f83
-      size: 2326
+      md5: b225cb64fb439f0fce5eaca148d0a93c
+      size: 2483
     - path: src/train.py
       hash: md5
       md5: 45544a6f65f8e88fd1e8d30ed8b3da2e
@@ -193,39 +193,39 @@ stages:
     outs:
     - path: models/arbres/best_model.pkl
       hash: md5
-      md5: 63a4f704b0afb689c30c94ee0b75f5fb
-      size: 1349272
+      md5: c150d50239c2fd20fd5d169719f395cd
+      size: 34978481
     - path: models/masse/best_model.pkl
       hash: md5
-      md5: bcf379eb237a9e6195d654de696bc10c
-      size: 1371211
+      md5: 502217d179a29ce2a1bd46900a731f86
+      size: 1365993
     - path: reports/metrics_arbres.json
       hash: md5
-      md5: 8d0c06cfd543ae8432febec95996d5f2
-      size: 498
+      md5: f3900aedb8ebe67d686c6c2619c17647
+      size: 505
     - path: reports/metrics_masse.json
       hash: md5
-      md5: 1154523652bdc07c4aea76ad96a31d16
-      size: 491
+      md5: 38e280905579d3942c0a206cd7c78dcc
+      size: 492
   evaluate:
     cmd: python src/evaluate.py
     deps:
     - path: models/arbres/best_model.pkl
       hash: md5
-      md5: 63a4f704b0afb689c30c94ee0b75f5fb
-      size: 1349272
+      md5: c150d50239c2fd20fd5d169719f395cd
+      size: 34978481
     - path: models/masse/best_model.pkl
       hash: md5
-      md5: bcf379eb237a9e6195d654de696bc10c
-      size: 1371211
+      md5: 502217d179a29ce2a1bd46900a731f86
+      size: 1365993
     - path: reports/metrics_arbres.json
       hash: md5
-      md5: 8d0c06cfd543ae8432febec95996d5f2
-      size: 498
+      md5: f3900aedb8ebe67d686c6c2619c17647
+      size: 505
     - path: reports/metrics_masse.json
       hash: md5
-      md5: 1154523652bdc07c4aea76ad96a31d16
-      size: 491
+      md5: 38e280905579d3942c0a206cd7c78dcc
+      size: 492
     - path: src/evaluate.py
       hash: md5
       md5: dbf05db3f305afa7c5c5c15184d1700b
@@ -233,17 +233,17 @@ stages:
     outs:
     - path: reports/figures/feature_importance_arbres.png
       hash: md5
-      md5: 2608cd2826bdf2fd4425585c43e11012
-      size: 54852
+      md5: c2405c35e1d56ffccf567c5875f91022
+      size: 55070
     - path: reports/figures/feature_importance_masse.png
       hash: md5
-      md5: 14f853b056d66f07eb9b21193d86a4ab
-      size: 53358
+      md5: d1bf4d7797cd7b38af585f777eae1a1d
+      size: 53362
     - path: reports/figures/model_comparison_arbres.png
       hash: md5
-      md5: cfb477af3714c5f70ae2d61790243d2a
-      size: 83416
+      md5: 90918e8ca893587af276d10974f4e5bd
+      size: 83543
     - path: reports/figures/model_comparison_masse.png
       hash: md5
-      md5: fb021ba15f1993858d1974cdc773841b
-      size: 88632
+      md5: a9c207b09198640e6ecc32479e825683
+      size: 89227

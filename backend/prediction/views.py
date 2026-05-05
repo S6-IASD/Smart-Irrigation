@@ -1,5 +1,8 @@
 import os
 import pickle
+import traceback
+import pandas as pd
+import joblib
 from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Avg
@@ -107,32 +110,62 @@ def compute_prediction(parcelle, manual_data=None):
     )
 
     # ── 3. Modèle ML ou règle fallback ───────────────────────────────────────
-    if is_countable:
-        model_path = '/models/model_arbres.pkl'
-        features = np.array([[
-            humidite_sol, temperature_sol,
-            n_val, p_val, k_val,
-            T_max, T_min, pluie_mm
-        ]])
-    else:
-        model_path = '/models/model_champs.pkl'
-        features = np.array([[
-            humidite_sol, temperature_sol,
-            n_val, p_val, k_val,
-            T_max, T_min, pluie_mm,
-            parcelle.superficie_ha
-        ]])
+    dataset_name = 'arbres' if is_countable else 'masse'
+    model_dir = f'/models/{dataset_name}'
+    
+    model_path = os.path.join(model_dir, 'best_model.pkl')
+    scaler_path = os.path.join(model_dir, 'scaler.pkl')
+    encoders_path = os.path.join(model_dir, 'encoders.pkl')
 
     quantite_predite = 0.0
     prediction_mode = f'fallback_{mode_label}'
 
-    if os.path.exists(model_path):
+    if os.path.exists(model_path) and os.path.exists(scaler_path) and os.path.exists(encoders_path):
         try:
-            with open(model_path, 'rb') as f:
-                model = pickle.load(f)
-            quantite_predite = float(model.predict(features)[0])
+            # Charger les artefacts
+            model = joblib.load(model_path)
+            scaler = joblib.load(scaler_path)
+            encoders = joblib.load(encoders_path)
+
+            # Construire les features dans le bon ordre (params.yaml)
+            features_dict = {
+                'T_min': T_min,
+                'T_max': T_max,
+                'humidite_sol': humidite_sol,
+                'temperature_sol': temperature_sol,
+                'N': n_val,
+                'P': p_val,
+                'K': k_val,
+                'pluie_mm': pluie_mm,
+                'type_plante': parcelle.type_plante,
+                'stade': parcelle.stade
+            }
+            if not is_countable:
+                features_dict['superficie_ha'] = parcelle.superficie_ha
+                
+            df = pd.DataFrame([features_dict])
+
+            # Encodage
+            for col in ['type_plante', 'stade']:
+                if col in df.columns:
+                    le = encoders.get(col)
+                    if le:
+                        # Gérer les classes non vues
+                        df[col] = df[col].astype(str).map(
+                            lambda s: s if s in le.classes_ else le.classes_[0]
+                        )
+                        df[col] = le.transform(df[col])
+
+            # Scaler
+            X_scaled = scaler.transform(df)
+
+            # Prédiction
+            quantite_predite = float(model.predict(X_scaled)[0])
+            quantite_predite = max(quantite_predite, 0.0)
             prediction_mode = f'ML_{mode_label}'
-        except Exception:
+        except Exception as e:
+            print(f"Erreur ML: {e}")
+            traceback.print_exc()
             quantite_predite = _fallback_rule(humidite_sol, T_max, pluie_mm, parcelle.superficie_ha if not is_countable else None)
     else:
         quantite_predite = _fallback_rule(humidite_sol, T_max, pluie_mm, parcelle.superficie_ha if not is_countable else None)

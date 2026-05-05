@@ -14,7 +14,8 @@ preprocessing:
 
 # ── Dataset arbres ────────────────────────────────────────────
 arbres:
-  source_path: "D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_arbres.csv"
+  source_path: "C:/Users/hp/Desktop/project-mlops/data/raw/data_arbres.csv"
+  # source_path: "D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_arbres.csv"
   target: eau_mm
   features:
     - T_min
@@ -30,7 +31,8 @@ arbres:
 
 # ── Dataset masse ─────────────────────────────────────────────
 masse:
-  source_path: "D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_masse.csv"
+  source_path: "C:/Users/hp/Desktop/project-mlops/data/raw/data_masse.csv"
+  # source_path: "D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_masse.csv"
   target: eau_litres
   features:
     - T_min
