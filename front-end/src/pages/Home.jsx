@@ -114,7 +114,7 @@ const Home = () => {
                 </div>
                 <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[EL ANGUI Salma]</h5>
                 <div className="text-success small fw-medium mb-3">[MLOps]</div>
-                <p className="text-muted small mb-0">Mise en place de pipelines ML pour deux modèles (tracking&versioning , Mlflow & DVC).</p>
+                <p className="text-muted small mb-0">Mise en place de pipelines ML pour les deux modèles (tracking & versioning , Mlflow & DVC).</p>
               </Card>
             </Col>
 
