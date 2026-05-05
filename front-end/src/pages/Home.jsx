@@ -126,7 +126,7 @@ const Home = () => {
                 </div>
                 <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Bousenbbat Kamal]</h5>
                 <div className="text-success small fw-medium mb-3">[Devops / Dev]</div>
-                <p className="text-muted small mb-0">Frontend & Backend Developement Testing & DevOps (Pytest ,Github Action , Docker , CI/CD & Deployement )</p>
+                <p className="text-muted small mb-0">Frontend & Backend Developement Testing & DevOps (Pytest ,Github Action ,Docker ,CI/CD & Deployement)</p>
               </Card>
             </Col>
 
@@ -136,7 +136,7 @@ const Home = () => {
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#ec4899', fontSize: '24px', fontWeight: 'bold' }}>
                   BS
                 </div>
-                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[BOULAARAB OTHMANE]</h5>
+                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[BOULAARAB Othmane]</h5>
                 <div className="text-success small fw-medium mb-3">[Dataops]</div>
                 <p className="text-muted small mb-0">  Préparation des données via un pipeline DataOps : collecte, analyse, nettoyage et feature engineering.</p>
               </Card>
