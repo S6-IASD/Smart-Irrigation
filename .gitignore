@@ -37,5 +37,5 @@ Thumbs.db
 
 # Data et modèles (gérés par DVC)
 data/
-models/
+# models/
 reports/
