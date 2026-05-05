@@ -124,14 +124,14 @@ const Home = () => {
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#8b5cf6', fontSize: '24px', fontWeight: 'bold' }}>
                   BK
                 </div>
-                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Bousenbbat Kamal]</h5>
+                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Bousebbat Kamal]</h5>
                 <div className="text-success small fw-medium mb-3">[Devops / Dev]</div>
                 <p className="text-muted small mb-0">Frontend & Backend Developement Testing & DevOps (Pytest ,Github Action ,Docker ,CI/CD & Deployement)</p>
               </Card>
             </Col>
 
             {/* Bob Smith Placeholder */}
-            <Col md={4} lg={3} className="mb-4">
+            <Col md={4} lg={4} className="mb-4">
               <Card className="border-0 shadow-sm text-center p-2 hover-card" style={{ borderRadius: '16px' }}>
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#ec4899', fontSize: '24px', fontWeight: 'bold' }}>
                   BO
