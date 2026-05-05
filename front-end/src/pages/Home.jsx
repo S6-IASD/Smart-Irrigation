@@ -110,11 +110,11 @@ const Home = () => {
             <Col md={4} lg={3} className="mb-4">
               <Card className="border-0 shadow-sm text-center p-4 hover-card" style={{ borderRadius: '16px' }}>
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#3b82f6', fontSize: '24px', fontWeight: 'bold' }}>
-                  JD
+                  ES
                 </div>
                 <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[EL ANGUI Salma]</h5>
                 <div className="text-success small fw-medium mb-3">[MLOps]</div>
-                <p className="text-muted small mb-0">Mise en place de pipelines ML pour deux modèles (tracking&versioning).</p>
+                <p className="text-muted small mb-0">Mise en place de pipelines ML pour deux modèles (tracking&versioning , Mlflow & DVC).</p>
               </Card>
             </Col>
 
@@ -122,7 +122,7 @@ const Home = () => {
             <Col md={4} lg={3} className="mb-4">
               <Card className="border-0 shadow-sm text-center p-4 hover-card" style={{ borderRadius: '16px' }}>
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#8b5cf6', fontSize: '24px', fontWeight: 'bold' }}>
-                  JS
+                  BK
                 </div>
                 <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Bousenbbat Kamal]</h5>
                 <div className="text-success small fw-medium mb-3">[Devops / Dev]</div>
@@ -134,11 +134,11 @@ const Home = () => {
             <Col md={4} lg={3} className="mb-4">
               <Card className="border-0 shadow-sm text-center p-4 hover-card" style={{ borderRadius: '16px' }}>
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#ec4899', fontSize: '24px', fontWeight: 'bold' }}>
-                  BS
+                  BO
                 </div>
                 <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[BOULAARAB Othmane]</h5>
                 <div className="text-success small fw-medium mb-3">[Dataops]</div>
-                <p className="text-muted small mb-0">  Préparation des données via un pipeline DataOps : collecte, analyse, nettoyage et feature engineering.</p>
+                <p className="text-muted small mb-0">Préparation des données via un pipeline DataOps : collecte, analyse, nettoyage et feature engineering.</p>
               </Card>
             </Col>
           </Row>
