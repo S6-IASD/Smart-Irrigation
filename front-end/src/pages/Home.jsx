@@ -131,7 +131,7 @@ const Home = () => {
             </Col>
 
             {/* Bob Smith Placeholder */}
-            <Col md={4} lg={4} className="mb-4">
+            <Col md={4} lg={3} className="mb-4">
               <Card className="border-0 shadow-sm text-center p-4 hover-card" style={{ borderRadius: '16px' }}>
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#ec4899', fontSize: '24px', fontWeight: 'bold' }}>
                   BO
