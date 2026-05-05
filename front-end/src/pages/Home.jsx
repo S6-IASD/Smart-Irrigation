@@ -23,7 +23,6 @@ const Home = () => {
         <Row className="align-items-center mb-5 pb-5 mt-md-4">
           <Col lg={7} className="mb-5 mb-lg-0 text-center text-lg-start pe-lg-5">
             <Badge className="bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 mb-4 fw-medium border border-success border-opacity-25">
-              🚀 L'avenir de l'agriculture intelligente
             </Badge>
             <h1 className="display-4 fw-bold mb-4" style={{ color: 'var(--color-sidebar)', lineHeight: '1.2' }}>
               Optimisez chaque goutte d'eau avec précision.
@@ -113,9 +112,9 @@ const Home = () => {
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#3b82f6', fontSize: '24px', fontWeight: 'bold' }}>
                   JD
                 </div>
-                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Prénom Nom]</h5>
-                <div className="text-success small fw-medium mb-3">[Rôle MLOps / Backend]</div>
-                <p className="text-muted small mb-0">Développeur principal de l'architecture backend et de l'intégration des modèles ML.</p>
+                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[EL ANGUI Salma]</h5>
+                <div className="text-success small fw-medium mb-3">[MLOps]</div>
+                <p className="text-muted small mb-0">Mise en place de pipelines ML pour deux modèles (tracking&versioning).</p>
               </Card>
             </Col>
 
@@ -125,9 +124,9 @@ const Home = () => {
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#8b5cf6', fontSize: '24px', fontWeight: 'bold' }}>
                   JS
                 </div>
-                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Prénom Nom]</h5>
-                <div className="text-success small fw-medium mb-3">[Rôle Frontend / Design]</div>
-                <p className="text-muted small mb-0">Créateur de l'interface SaaS réactive et experte en expérience utilisateur (UX).</p>
+                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Bousenbbat Kamal]</h5>
+                <div className="text-success small fw-medium mb-3">[Devops / Dev]</div>
+                <p className="text-muted small mb-0">Frontend & Backend Developement Testing & DevOps (Pytest ,Github Action , Docker , CI/CD & Deployement )</p>
               </Card>
             </Col>
 
@@ -137,9 +136,9 @@ const Home = () => {
                 <div className="mx-auto rounded-circle d-flex align-items-center justify-content-center text-white mb-3 shadow-sm" style={{ width: '80px', height: '80px', backgroundColor: '#ec4899', fontSize: '24px', fontWeight: 'bold' }}>
                   BS
                 </div>
-                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[Prénom Nom]</h5>
-                <div className="text-success small fw-medium mb-3">[Rôle Data / IoT]</div>
-                <p className="text-muted small mb-0">Chargé des pipelines de données et de la configuration des capteurs simulés/réels.</p>
+                <h5 className="fw-bold mb-1" style={{ color: 'var(--color-sidebar)' }}>[BOULAARAB OTHMANE]</h5>
+                <div className="text-success small fw-medium mb-3">[Dataops]</div>
+                <p className="text-muted small mb-0">  Préparation des données via un pipeline DataOps : collecte, analyse, nettoyage et feature engineering.</p>
               </Card>
             </Col>
           </Row>

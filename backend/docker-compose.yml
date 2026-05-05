@@ -20,7 +20,7 @@ services:
              
     volumes:
       - .:/app
-      - ./models:/models
+      - ../models:/models
     ports:
       - "8000:8000"
     environment:

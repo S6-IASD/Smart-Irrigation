@@ -6,7 +6,7 @@ RUN apt-get clean && apt-get update --fix-missing && apt-get install -y libpq-de
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=1000 -r requirements.txt
 
 COPY . .
 

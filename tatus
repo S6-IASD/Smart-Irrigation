@@ -1,0 +1,5 @@
+[33m613a2ef[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmlops[m[33m, [m[1;31morigin/mlops[m[33m)[m feat: update pipeline scripts
+[33m2c288ec[m fix: remove *.pkl from gitignore, let DVC manage models
+[33m1d8a003[m merge: resolve README conflict, integrate DVC section
+[33mb54f589[m docs: update README on mlops branch
+[33m0146bd0[m merge: integrate dataops branch into mlops

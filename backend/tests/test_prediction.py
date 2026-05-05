@@ -91,7 +91,8 @@ def test_prediction_success(mock_meteo, authenticated_client, parcelle_id, capte
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
        return_value=MOCK_METEO_RESPONSE)
-def test_prediction_mode_fallback(mock_meteo, authenticated_client, parcelle_id, capteur_data):
+@patch('os.path.exists', return_value=False)
+def test_prediction_mode_fallback(mock_exists, mock_meteo, authenticated_client, parcelle_id, capteur_data):
     # Sans model.pkl → mode fallback
     payload = {"parcelle_id": str(parcelle_id), **capteur_data}
     response = authenticated_client.post("/api/prediction/", payload)
@@ -119,7 +120,8 @@ def test_prediction_cree_meteo(mock_meteo, authenticated_client, parcelle_id, ca
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
        return_value=MOCK_METEO_RESPONSE)
-def test_prediction_sol_tres_humide(mock_meteo, authenticated_client, parcelle_id):
+@patch('os.path.exists', return_value=False)
+def test_prediction_sol_tres_humide(mock_exists, mock_meteo, authenticated_client, parcelle_id):
     # humidite >= 50 → fallback retourne 0 → declenchement = False
     payload = {
         "parcelle_id": str(parcelle_id),
@@ -137,7 +139,8 @@ def test_prediction_sol_tres_humide(mock_meteo, authenticated_client, parcelle_i
 @pytest.mark.django_db
 @patch("meteo.services.WeatherService.get_weather_for_coordinates",
        return_value=MOCK_METEO_RESPONSE)
-def test_prediction_sol_sec(mock_meteo, authenticated_client, parcelle_id):
+@patch('os.path.exists', return_value=False)
+def test_prediction_sol_sec(mock_exists, mock_meteo, authenticated_client, parcelle_id):
     # humidite < 50 → eau nécessaire → declenchement = True
     payload = {
         "parcelle_id": str(parcelle_id),

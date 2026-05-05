@@ -33,7 +33,16 @@ const Login = () => {
         setError('Identifiants incorrects');
       }
     } catch (err) {
-      setError('Erreur de connexion. Vérifiez vos identifiants.');
+      let msg = 'Erreur de connexion. Vérifiez vos identifiants.';
+      if (err.response && err.response.data && err.response.data.detail) {
+        // Translation for standard DRF message
+        if (err.response.data.detail.includes('No active account found')) {
+          msg = 'Aucun compte actif trouvé avec ces identifiants.';
+        } else {
+          msg = err.response.data.detail;
+        }
+      }
+      setError(msg);
     } finally {
       setIsSubmitting(false);
     }

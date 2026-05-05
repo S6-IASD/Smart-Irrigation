@@ -1,26 +1,72 @@
-# Centralize ALL hyperparameters here
-# DVC reads this file to know when to re-run stages
+# ─────────────────────────────────────────────────────────────
+# params.yaml – Smart Irrigation MLOps
+# ─────────────────────────────────────────────────────────────
 
+# ── Global ───────────────────────────────────────────────────
 data:
-  test_size: 0.2
   random_state: 42
-  target_column: "water_need"
+  test_size: 0.2
 
+# ── Preprocessing ─────────────────────────────────────────────
 preprocessing:
   scale_features: true
+  scale_method: "standard"    # "standard" (µ=0, σ=1)  ou  "minmax" ([0,1])
 
+# ── Dataset arbres ────────────────────────────────────────────
+arbres:
+  source_path: "C:/Users/hp/Desktop/project-mlops/data/raw/data_arbres.csv"
+  # source_path: "D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_arbres.csv"
+  target: eau_mm
+  features:
+    - T_min
+    - T_max
+    - humidite_sol
+    - temperature_sol
+    - N
+    - P
+    - K
+    - pluie_mm
+    - type_plante
+    - stade
+
+# ── Dataset masse ─────────────────────────────────────────────
+masse:
+  source_path: "C:/Users/hp/Desktop/project-mlops/data/raw/data_masse.csv"
+  # source_path: "D:/MLOPS/Smart-Irrigation/dataops/data/processed/data_masse.csv"
+  target: eau_litres
+  features:
+    - T_min
+    - T_max
+    - humidite_sol
+    - temperature_sol
+    - N
+    - P
+    - K
+    - pluie_mm
+    - type_plante
+    - stade
+    - superficie_ha
+
+# ── Hyperparamètres modèles ───────────────────────────────────
 random_forest:
-  n_estimators: 150
+  n_estimators: 250
   max_depth: 15
-  min_samples_split: 8
+  min_samples_split: 5
+  min_samples_leaf: 2
+  n_jobs: -1
   random_state: 42
 
 xgboost:
-  n_estimators: 100
+  n_estimators: 300
   max_depth: 6
-  learning_rate: 0.1
+  learning_rate: 0.05
   subsample: 0.8
+  colsample_bytree: 0.8
   random_state: 42
 
-evaluate:
-  metrics: ["mae", "rmse", "r2", "mape"]
+gradient_boosting:
+  n_estimators: 200
+  max_depth: 5
+  learning_rate: 0.05
+  subsample: 0.8
+  random_state: 42
