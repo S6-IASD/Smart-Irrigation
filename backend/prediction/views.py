@@ -112,14 +112,13 @@ def compute_prediction(parcelle, manual_data=None):
     # ── 3. Modèle ML ou règle fallback ───────────────────────────────────────
     dataset_name = 'arbres' if is_countable else 'masse'
     
-    # Path inside Docker
-    model_dir = f'/models/{dataset_name}'
-    
-    # If not in Docker, use local project path
-    if not os.path.exists('/models'):
+    # Check if models are mounted as volume (old Docker way)
+    if os.path.exists(f'/models/{dataset_name}'):
+        model_dir = f'/models/{dataset_name}'
+    else:
+        # Railway / New Local way: models are inside the backend directory
         from django.conf import settings
-        project_root = os.path.dirname(settings.BASE_DIR)
-        model_dir = os.path.join(project_root, 'models', dataset_name)
+        model_dir = os.path.join(settings.BASE_DIR, 'models', dataset_name)
     
     model_path = os.path.join(model_dir, 'best_model.pkl')
     scaler_path = os.path.join(model_dir, 'scaler.pkl')
